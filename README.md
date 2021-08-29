@@ -1,2 +1,2 @@
-# javascript-important-topics
+# javascript-important-fundamentals
 Created with CodeSandbox

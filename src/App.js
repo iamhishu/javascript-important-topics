@@ -1,8 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import "./styles.css";
-import ReactDOM from "react-dom";
-
-import { CopyBlock, dracula } from "react-code-blocks";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import IIFE from "./Iife";
 import Scope from "./Scope";
@@ -13,10 +10,8 @@ import Callbacks from "./Callbacks";
 import Promises from "./Promises";
 
 export default function App() {
-  const [firstValue, SetFirstValue] = React.useState("");
-  const [displayCode, SetDisplayCode] = React.useState(false);
-  //IIFE
-  const Topics = [
+  const [currentChap, SetCurrentChap] = useState(0);
+  const [Topics, SetTopics] = useState([
     "Scope",
     "IIEF",
     "Hoisting",
@@ -24,8 +19,19 @@ export default function App() {
     "Callbacks",
     "Promises",
     "AsyncAwait"
-  ];
+  ]);
+  /** navigate through chapters */
+  const moveNextChap = (currentChap) => {
+    const ToTalTopics = Topics.length;
+    if (currentChap < ToTalTopics - 1) {
+      SetCurrentChap(currentChap + 1);
+    } else if (currentChap === ToTalTopics - 1) {
+      SetCurrentChap(0);
+    }
+  };
 
+  const getTopicName = Topics[currentChap];
+  const getTopicLink = getTopicName ? "/" + getTopicName.toLowerCase() : "";
   return (
     <div className="App">
       <Router>
@@ -80,6 +86,18 @@ export default function App() {
             </Route>
           </Switch>
         </div>
+        <br />
+        <br />
+        <br />
+
+        <Link
+          style={{ marginTop: "100px" }}
+          className="btn"
+          onClick={() => moveNextChap(currentChap)}
+          to={getTopicLink ? getTopicLink : "/"}
+        >
+          Unlock Topic ({getTopicName})
+        </Link>
       </Router>
     </div>
   );
